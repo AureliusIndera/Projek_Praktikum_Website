@@ -1,11 +1,21 @@
 <?php
-include ('../config/koneksi.php');
+include('../config/koneksi.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = mysqli_real_escape_string($koneksi, $_POST['username']);
     $email = mysqli_real_escape_string($koneksi, $_POST['email']);
     $password = mysqli_real_escape_string($koneksi, $_POST['password']);
+    $confirm_password = mysqli_real_escape_string($koneksi, $_POST['confirm_password']);
     $nama_lengkap = mysqli_real_escape_string($koneksi, $_POST['nama_lengkap']);
+
+    // cek password & konfirmasi
+    if ($_POST['password'] !== $_POST['confirm_password']) {
+        echo "<script>
+            alert('Konfirmasi Password Tidak Sama!');
+            window.location.href='../frontend/register.php';
+        </script>";
+        exit;
+    }
 
     // cek apakah email sudah terdaftar
     $query = "SELECT * FROM user WHERE email='$email'";
@@ -15,10 +25,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit;
     }
 
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);  // hash password
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // simpan user ke database
-    $query = "INSERT INTO user (username,email,password,nama_lengkap) VALUES ('$username','$email','$hashed_password', '$nama_lengkap')";
+    // simpan user
+    $query = "INSERT INTO user (username,email,password,nama_lengkap,role) 
+              VALUES ('$username','$email','$hashed_password','$nama_lengkap','user')";
+
     if (mysqli_query($koneksi, $query)) {
         echo "<script>alert('Registrasi Berhasil!'); window.location.href='../frontend/login.php';</script>";
     } else {
