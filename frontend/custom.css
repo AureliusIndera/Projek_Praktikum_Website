@@ -1,0 +1,90 @@
+/* Global variabel */
+:root {
+  --primary: #ffffff;
+  --secondary: #355be3ff;
+  --secondary-light: #afd5ffff;
+  --accent: #f97316;
+  --dark: #1f2937;
+  --light: #f3f4f6;
+}
+
+/* Global Setting */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+  color: var(--dark);
+  margin: 0;
+  padding: 0;
+  background: none !important;
+}
+
+a {
+  color: var(--secondary);
+}
+
+a:hover {
+  color: var(--secondary-light);
+}
+
+.d-flex {
+  background: transparent !important;
+}
+/* Gradient background*/
+body.bg-gradient-brand {
+  background: linear-gradient(
+    135deg,
+    var(--secondary),
+    var(--secondary-light)
+  ) !important;
+}
+
+.bg-gradient-brand {
+  background: linear-gradient(
+    135deg,
+    var(--secondary),
+    var(--secondary-light)
+  ) !important;
+  min-height: 100vh;
+}
+
+/* button */
+.btn-primary {
+  background-color: var(--secondary) !important;
+  border-color: var(--secondary) !important;
+}
+.btn-primary:hover {
+  background-color: var(--secondary-light) !important;
+  border-color: var(--secondary-light) !important;
+}
+
+.btn-accent {
+  background-color: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: white !important;
+}
+
+/* form card */
+.form-card {
+  background: var(--primary);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 420px;
+}
+
+/* form control */
+.form-control:focus {
+  border-color: var(--secondary);
+  box-shadow: 0 0 5px rgba(33, 93, 221, 0.4);
+}
+
+/* badge */
+.badge-accent {
+  background-color: var(--accent);
+  color: white;
+}
