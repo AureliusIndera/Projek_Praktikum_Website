@@ -1,42 +1,143 @@
-<?php 
-include ("../../config/koneksi.php");
-
-?>
-
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="id">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login - Project Basket</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../../frontend/style.css">
-  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Sistem Analisis Basket</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="../components/sidebar.css" rel="stylesheet">
 </head>
 
-<body>
-  <div class="d-flex">
-    <div class="sidebar">
-      <h5 class="px-4 mb-4 fw-bold">Analisi Performa Pemain Basket </h5>
+<body class="bg-light">
+    <div class="d-flex">
+        <?php include("../components/sidebar_admin.php"); ?>
 
-      <p class="px-4 text-uppercase text-muted small">Menu Utama</p>
+        <!-- Main Content -->
+        <div class="flex-grow-1 p-4 main-content">
+            <nav class="row mb-4">
+                <div class="col-12">
+                    <h2 class="mb-1">Dashboard Admin</h2>
+                    <p class="text-muted">Kelola data performa pemain disini</p>
+                </div>
+            </nav>
 
-      <a href="dashboard_admin.php" class="nav-link active">Dashboard</a>
-      <a href="../common/daftar_pemain.php" class="nav-link">Daftar Pemain</a>
-      <a href="../common/daftar_statistik.php" class="nav-link">Daftar Statistik</a>
+            <div class="container-fluid p-4">
 
-      <p class="px-4 mt-4 text-uppercase text-muted small">Aksi Cepat</p>
+                <!-- Summary Cards -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card border-0 shadow-sm bg-light">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title text-muted">Total Pemain</h6>
+                                        <h3 class="text-primary fw-bold">24</h3>
+                                    </div>
+                                    <i class="fas fa-users fa-3x text-primary opacity-25"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-      <a href="tambah_pemain.php" class="nav-link">Tambah Pemain</a>
-      <a href="tambah_statistik.php" class="nav-link">Tambah Statistik</a>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card border-0 shadow-sm bg-light">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title text-muted">Total Pertandingan</h6>
+                                        <h3 class="text-success fw-bold">12</h3>
+                                    </div>
+                                    <i class="fas fa-basketball fa-3x text-success opacity-25"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card border-0 shadow-sm bg-light">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title text-muted">Total Statistik</h6>
+                                        <h3 class="text-info fw-bold">156</h3>
+                                    </div>
+                                    <i class="fas fa-chart-bar fa-3x text-info opacity-25"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card border-0 shadow-sm bg-light">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title text-muted">Rating Rata-rata</h6>
+                                        <h3 class="text-warning fw-bold">8.5/10</h3>
+                                    </div>
+                                    <i class="fas fa-star fa-3x text-warning opacity-25"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <hr class="my-4">
+
+                <h4 class="mb-3">Menu Manajemen</h4>
+                <div class="row g-3">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="fas fa-user-plus fa-2x text-primary mb-3"></i>
+                                <h5 class="card-title">Tambah Pemain</h5>
+                                <p class="card-text text-muted small">Tambahkan pemain baru ke sistem</p>
+                                <a href="tambah_pemain.php" class="btn btn-sm btn-primary">Akses</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="fas fa-list fa-2x text-success mb-3"></i>
+                                <h5 class="card-title">Daftar Pemain</h5>
+                                <p class="card-text text-muted small">Lihat dan kelola semua pemain</p>
+                                <a href="../common/daftar_pemain.php" class="btn btn-sm btn-success">Akses</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="fas fa-chart-bar fa-2x text-info mb-3"></i>
+                                <h5 class="card-title">Tambah Statistik</h5>
+                                <p class="card-text text-muted small">Catat performa pemain</p>
+                                <a href="tambah_statistik.php" class="btn btn-sm btn-info">Akses</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="fas fa-table fa-2x text-warning mb-3"></i>
+                                <h5 class="card-title">Daftar Statistik</h5>
+                                <p class="card-text text-muted small">Lihat semua data statistik</p>
+                                <a href="../common/daftar_statistik.php" class="btn btn-sm btn-warning">Akses</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="flex-grow-1">
-<div class="topbar d-flex justify-content"></div>
-    </div>
-  </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

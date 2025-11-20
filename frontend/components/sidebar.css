@@ -1,0 +1,14 @@
+/* Jadikan sidebar fixed */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px !important;
+    height: 100vh;
+    overflow-y: auto; /* scroll sidebar jika isi terlalu panjang */
+}
+
+/* Supaya konten tidak ketiban sidebar */
+.main-content {
+    margin-left: 250px;
+}
