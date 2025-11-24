@@ -1,135 +1,131 @@
 <?php
+require("../../backend/auth.php");
+requireRole(['user']);
 include("../../config/koneksi.php");
-?>
+include("../components/sidebar_user.php");
 
+$query = "
+    SELECT s.id_statistik, p.nama_pemain AS nama_pemain, pt.tanggal, pt.lawan, s.poin, 
+    s.assist, s.rebound, s.steal, s.block, s.turnover, s.fga, s.fgm
+    FROM statistik AS s
+    JOIN pemain AS p ON s.id_pemain = p.id_pemain
+    JOIN pertandingan AS pt ON s.id_pertandingan = pt.id_pertandingan
+    ORDER BY pt.tanggal DESC";
+$result = mysqli_query($koneksi, $query);
+?>
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Statistik - Sistem Analisis Basket</title>
+    <title>Daftar Statistik Pertandingan</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="../components/sidebar.css" rel="stylesheet">
 </head>
-
 <body class="bg-light">
     <div class="d-flex">
-        <?php include("../components/sidebar_user.php"); ?>
-
-        <!-- Main Content -->
         <div class="flex-grow-1 p-4 main-content">
-            <div class="row mb-4">
+            <div class="mb-4">
                 <div class="col-12">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h2>Daftar Statistik Pertandingan</h2>
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover table-bordered" id="tabelStatistik">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Pemain</th>
-                                            <th>Pertandingan</th>
-                                            <th>Tanggal</th>
-                                            <th>Poin</th>
-                                            <th>Assist</th>
-                                            <th>Rebound</th>
-                                            <th>Steal</th>
-                                            <th>Block</th>
-                                            <th>Turnover</th>
-                                            <th>FGA</th>
-                                            <th>FGM</th>
-                                            <th>Akurasi %</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody id="tableBody">
-                                        <tr data-pemain="Andi Wijaya" data-pertandingan="vs Tim A">
-                                            <td>1</td>
-                                            <td>Andi Wijaya</td>
-                                            <td>vs Tim A</td>
-                                            <td>2024-01-15</td>
-                                            <td><span class="badge bg-success">25</span></td>
-                                            <td>8</td>
-                                            <td>12</td>
-                                            <td>3</td>
-                                            <td>1</td>
-                                            <td>3</td>
-                                            <td>22</td> <!-- FGA -->
-                                            <td>10</td> <!-- FGM -->
-                                            <td><span class="badge bg-info">45.5%</span></td>
-                                            <td>
-                                                <a href="#" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                                                <a href="#" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus?')">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-
-                                        <tr data-pemain="Budi Santoso" data-pertandingan="vs Tim B">
-                                            <td>2</td>
-                                            <td>Budi Santoso</td>
-                                            <td>vs Tim B</td>
-                                            <td>2024-01-16</td>
-                                            <td><span class="badge bg-success">32</span></td>
-                                            <td>6</td>
-                                            <td>9</td>
-                                            <td>2</td>
-                                            <td>2</td>
-                                            <td>9</td>
-                                            <td>14</td> <!-- FGM -->
-                                            <td>27</td> <!-- FGA -->
-                                            <td><span class="badge bg-info">52.3%</span></td>
-                                            <td>
-                                                <a href="#" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                                                <a href="#" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus?')">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-
-                                        <tr data-pemain="Citra Dewi" data-pertandingan="vs Tim C">
-                                            <td>3</td>
-                                            <td>Citra Dewi</td>
-                                            <td>vs Tim C</td>
-                                            <td>2024-01-17</td>
-                                            <td><span class="badge bg-success">18</span></td>
-                                            <td>11</td>
-                                            <td>15</td>
-                                            <td>4</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>7</td> <!-- FGM -->
-                                            <td>19</td> <!-- FGA -->
-                                            <td><span class="badge bg-info">38.2%</span></td>
-                                            <td>
-                                                <a href="#" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                                                <a href="#" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus?')">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+            <div class="mb-3 d-flex align-items-center gap-2">
+                <label class="fw-bold">Filter Pemain:</label>
+                <select id="filterPemain" class="form-select w-auto">
+                    <option value="">Semua Pemain</option>
+                    <?php
+                    $players = [];
+                    mysqli_data_seek($result, 0);
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $players[$row['nama_pemain']] = true;
+                    }
+                    foreach ($players as $pemain => $_) {
+                        echo "<option value='$pemain'>$pemain</option>";
+                    }
+                    mysqli_data_seek($result, 0);
+                    ?>
+                </select>
+            </div>
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered table-striped text-center">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 30px;">No</th>
+                                    <th style="width: 200px;">Nama Pemain</th>
+                                    <th style="width: 100px;">Lawan</th>
+                                    <th style="width: 120px;">Tanggal</th>
+                                    <th style="width: 70px;">Poin</th>
+                                    <th style="width: 70px;">Assist</th>
+                                    <th style="width: 70px;">Rebound</th>
+                                    <th style="width: 70px;">Steal</th>
+                                    <th style="width: 70px;">Block</th>
+                                    <th style="width: 70px;">Turnover</th>
+                                    <th style="width: 70px;">FGA</th>
+                                    <th style="width: 70px;">FGM</th>
+                                    <th style="width: 70px;">Akurasi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $no = 1;
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $akurasi = ($row['fga'] > 0)
+                                        ? number_format(($row['fgm'] / $row['fga']) * 100, 1)
+                                        : 0;
+                                ?>
+                                    <tr data-pemain="<?= strtolower($row['nama_pemain']) ?>">
+                                        <td><?= $no++ ?></td>
+                                        <td><?= $row['nama_pemain'] ?></td>
+                                        <td><?= $row['lawan'] ?></td>
+                                        <td><?= $row['tanggal'] ?></td>
+                                        <td><span class="badge bg-success"><?= $row['poin'] ?></span></td>
+                                        <td><?= $row['assist'] ?></td>
+                                        <td><?= $row['rebound'] ?></td>
+                                        <td><?= $row['steal'] ?></td>
+                                        <td><?= $row['block'] ?></td>
+                                        <td><?= $row['turnover'] ?></td>
+                                        <td><?= $row['fga'] ?></td>
+                                        <td><?= $row['fgm'] ?></td>
+                                        <td><span class="badge bg-primary"><?= $akurasi ?>%</span></td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
+    <script>
+        const filter = document.getElementById("filterPemain");
+        const rows = document.querySelectorAll("tbody tr");
+        function updateNumbers() {
+            let n = 1;
+            rows.forEach(r => {
+                if (r.style.display !== "none") {
+                    r.cells[0].textContent = n++;
+                }
+            });
+        }
+        filter.addEventListener("change", () => {
+            const val = filter.value.toLowerCase();
+            rows.forEach(row => {
+                const pemain = row.getAttribute("data-pemain");
+                if (val === "" || pemain === val) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+            updateNumbers();
+        });
+        updateNumbers();
+    </script>
 </body>
-
 </html>

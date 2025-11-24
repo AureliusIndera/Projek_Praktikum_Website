@@ -25,9 +25,9 @@ include("../config/koneksi.php");
                 
                 <form id="registerForm" action="../backend/register_user.php" method="POST">
                     <div class="mb-3">
-                        <label for="nama" class="form-label fw-semibold">Nama Lengkap</label>
-                        <input type="text" class="form-control" id="nama" name="nama" required placeholder="Masukkan nama lengkap">
-                        <small class="text-danger" id="namaError" style="display:none;">Nama minimal 3 karakter</small>
+                        <label for="nama" class="form-label fw-semibold">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required placeholder="Masukkan username">
+                        <small class="text-danger" id="namaError" style="display:none;">Username minimal 3 karakter</small>
                     </div>
                     
                     <div class="mb-3">
