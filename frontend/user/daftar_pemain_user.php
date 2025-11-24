@@ -1,113 +1,104 @@
 <?php
+require("../../backend/auth.php");
+requireRole(['user']);
 include("../../config/koneksi.php");
+include("../components/sidebar_user.php");
+$query =  "SELECT DISTINCT posisi FROM pemain ORDER BY posisi ASC";
+$posisiQuery = mysqli_query($koneksi,$query);
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Pemain - Sistem Analisis Basket</title>
+    <title>Daftar Pemain</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="../components/sidebar.css" rel="stylesheet">
 </head>
-
 <body class="bg-light">
     <div class="d-flex">
-        <?php include("../components/sidebar_user.php"); ?>
-
-        <!-- Main Content -->
         <div class="flex-grow-1 p-4 main-content">
-            <div class="row mb-4">
+            <div class="mb-4">
                 <div class="col-12">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h2>Daftar Pemain</h2>
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover table-bordered">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Nama Pemain</th>
-                                            <th>Posisi</th>
-                                            <th>Tinggi (cm)</th>
-                                            <th>Berat (kg)</th>
-                                            <th>Tanggal Lahir</th>
-                                            <th>Nomor Punggung</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Andi Wijaya</td>
-                                            <td>Point Guard</td>
-                                            <td>180</td>
-                                            <td>75</td>
-                                            <td>1998-05-15</td>
-                                            <td>23</td>
-                                            <td>
-                                                <a href="#" class="btn btn-sm btn-warning" title="Edit">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-sm btn-danger" title="Hapus" onclick="return confirm('Yakin ingin menghapus?')">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Budi Santoso</td>
-                                            <td>Shooting Guard</td>
-                                            <td>185</td>
-                                            <td>78</td>
-                                            <td>1999-03-20</td>
-                                            <td>24</td>
-                                            <td>
-                                                <a href="#" class="btn btn-sm btn-warning" title="Edit">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-sm btn-danger" title="Hapus" onclick="return confirm('Yakin ingin menghapus?')">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Citra Dewi</td>
-                                            <td>Small Forward</td>
-                                            <td>172</td>
-                                            <td>65</td>
-                                            <td>2000-07-10</td>
-                                            <td>25</td>
-                                            <td>
-                                                <a href="#" class="btn btn-sm btn-warning" title="Edit">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-sm btn-danger" title="Hapus" onclick="return confirm('Yakin ingin menghapus?')">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+            <div class="mb-3 d-flex align-items-center gap-2">
+                <label class="fw-bold">Filter Posisi:</label>
+                <select id="filterPosisi" class="form-select w-auto">
+                    <option value="">Semua Posisi</option>
+                    <?php while ($pos = mysqli_fetch_assoc($posisiQuery)) { ?>
+                        <option value="<?= strtolower($pos['posisi']) ?>">
+                            <?= $pos['posisi'] ?>
+                        </option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered table-striped text-center">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 30px;">No</th>
+                                    <th style="width: 200px;">Nama Pemain</th>
+                                    <th style="width: 150px;">Posisi</th>
+                                    <th style="width: 150px;">Tinggi (cm)</th>
+                                    <th style="width: 150px;">Berat (kg)</th>
+                                    <th style="width: 200px;">Tanggal Lahir</th>
+                                    <th style="width: 150px;">No Punggung</th>
+                                </tr>
+                            </thead>
+                            <tbody id="playerTable">
+                                <?php
+                                $no = 1;
+                                $query = mysqli_query($koneksi, "SELECT * FROM pemain ORDER BY nama_pemain ASC");
+                                while ($row = mysqli_fetch_assoc($query)) { ?>
+                                    <tr data-posisi="<?= strtolower($row['posisi']) ?>">
+                                        <td><?= $no++ ?></td>
+                                        <td><?= $row['nama_pemain'] ?></td>
+                                        <td><?= $row['posisi'] ?></td>
+                                        <td><?= $row['tinggi_cm'] ?></td>
+                                        <td><?= $row['berat_kg'] ?></td>
+                                        <td><?= $row['tanggal_lahir'] ?></td>
+                                        <td><?= $row['nomor_punggung'] ?></td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const filter = document.getElementById("filterPosisi");
+        const rows = document.querySelectorAll("tbody tr");
+        function updateNumbers() {
+            let n = 1;
+            rows.forEach(r => {
+                if (r.style.display !== "none") {
+                    r.cells[0].textContent = n++;
+                }
+            });
+        }
+        filter.addEventListener("change", () => {
+            const val = filter.value;
+            rows.forEach(row => {
+                const posisi = row.getAttribute("data-posisi");
+                if (val === "" || posisi === val) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+            updateNumbers();
+        });
+        updateNumbers();
+    </script>
 </body>
-
 </html>

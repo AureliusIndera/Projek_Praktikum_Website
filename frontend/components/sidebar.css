@@ -1,14 +1,36 @@
-/* Jadikan sidebar fixed */
+/* === SIDEBAR MAIN STYLE === */
 .sidebar {
     position: fixed;
-    top: 0;
     left: 0;
-    width: 250px !important;
-    height: 100vh;
-    overflow-y: auto; /* scroll sidebar jika isi terlalu panjang */
+    top: 0;
+    width: 240px;
+    height: 100vh; /* full height */
+    background-color: #0d6efd;
+    padding: 20px;
+    color: white;
+    overflow-y: auto;
 }
 
-/* Supaya konten tidak ketiban sidebar */
+.nav-link {
+    display: block;
+    padding: 10px 14px;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+    transition: 0.2s;
+    font-size: 15px;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.active-link {
+    background: white !important;
+    color: #0d6efd !important;
+    font-weight: bold;
+}
+
 .main-content {
     margin-left: 250px;
 }
