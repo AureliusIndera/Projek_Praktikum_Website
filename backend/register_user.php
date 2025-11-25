@@ -7,7 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = mysqli_real_escape_string($koneksi, $_POST['email']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
-    $nama_lengkap = mysqli_real_escape_string($koneksi, $_POST['nama_lengkap']);
 
     // cek password sama
     if ($password !== $confirm_password) {
@@ -35,8 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // insert user baru
     $queryInsert = "
-        INSERT INTO user (username, email, password, nama_lengkap, role)
-        VALUES ('$username', '$email', '$hashed_password', '$nama_lengkap', 'user')
+        INSERT INTO user (username, email, password, role)
+        VALUES ('$username', '$email', '$hashed_password', 'user')
     ";
 
     if (mysqli_query($koneksi, $queryInsert)) {
